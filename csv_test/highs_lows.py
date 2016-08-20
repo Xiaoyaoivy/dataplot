@@ -32,7 +32,7 @@ with open(filename) as f:
     # plt.title(u"Daily high temperatures黄 , July 2014",fontsize = 24,fontproperties=font_set)
     plt.title("Daily high and low temperatures-2014", fontsize=24)
     plt.xlabel('', fontsize=16)
-    plt.ylabel("Temperature(F)", fontsize=16)
+    plt.ylabel("Temperature(F)" , fontsize=16)
     fig.autofmt_xdate()
     plt.tick_params(axis='both', which='major', labelsize=16)
 
