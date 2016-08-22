@@ -2,7 +2,7 @@
 import json
 import pygal
 from country_codes import get_country_code
-
+from pygal.style import RotateStyle
 # 将数据加载到一个列表中
 filename = 'population_data.json'
 with open(filename) as f:
@@ -16,6 +16,26 @@ for pop_dict in pop_data:
         population = int(float(pop_dict['Value']))
         code = get_country_code(country_name)
         if code:
-            print(country_name + ':' + str(population))
-        else:
-            print('Error - ' + country_name)
+            cc_population[code] = population
+
+# 根据人口数量将所有的国家分成三组
+cc_pops_1, cc_pops_2, cc_pops_3 = {}, {}, {}
+for cc, pop in cc_population.items():
+    if pop < 10000000:
+        cc_pops_1[cc] = pop
+    elif pop < 1000000000:
+        cc_pops_2[cc] = pop
+    else:
+        cc_pops_3[cc] = pop
+
+print(len(cc_pops_1),len(cc_pops_2),len(cc_pops_3))
+
+
+
+wm_style = RotateStyle('#336699')
+wm = pygal.maps.world.World(style=wm_style)
+wm.title = 'World Population in 2010'
+wm.add('0-10m', cc_pops_1)
+wm.add('10m-1bm', cc_pops_2)
+wm.add('>1bm', cc_pops_3)
+wm.render_to_file('world_population_2010.svg')
